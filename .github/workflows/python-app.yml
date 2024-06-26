@@ -4,10 +4,20 @@
 name: Build & Scan Python Components
 
 on:
-  push:
-    branches: [ "enable-endor-scan" ]
-  pull_request:
-    branches: [ "enable-endor-scan" ]
+  workflow_dispatch:
+    inputs:
+      api:
+        description: "Enter the target Endor Labs API"
+        required: true
+        type: choice
+        default: https://api.endorlabs.com
+        options:
+        - https://api.staging.endorlabs.com
+        - https://api.endorlabs.com
+      tenant_name:
+        description: "Enter your Endor Labs namespace?"
+        required: true
+        type: string
 
 jobs:
   build:
@@ -17,7 +27,7 @@ jobs:
       matrix:
         component:
           - ik-requests
-          - ik-beautifulsoup
+          - ik-beautiful-soup
           - ik-streamlit
 
     steps:
@@ -34,6 +44,5 @@ jobs:
 
     - name: Install dependencies
       run: |
-        ls -la
-        # source components/${{ matrix.component }}/devenv/bin/activate
-        # pip install -r components/${{ matrix.component }}/requirements.txt
+        source components/${{ matrix.component }}/devenv/bin/activate
+        pip install -r components/${{ matrix.component }}/requirements.txt
