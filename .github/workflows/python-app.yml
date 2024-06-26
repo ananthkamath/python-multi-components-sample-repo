@@ -1,0 +1,38 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Build & Scan Python Components
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        component:
+          - ik-requests
+          - ik-beautifulsoup
+          - ik-streamlit
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11.9'
+
+    - name: Create virtual environment
+      run: python -m venv components/${{ matrix.component }}/devenv
+
+    - name: Install dependencies
+      run: |
+        source devenv/bin/activate
+        pip install -r components/${{ matrix.component }}/requirements.txt
