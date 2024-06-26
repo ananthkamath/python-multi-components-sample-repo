@@ -5,9 +5,9 @@ name: Build & Scan Python Components
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "enable-endor-scan" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "enable-endor-scan" ]
 
 jobs:
   build:
@@ -34,5 +34,6 @@ jobs:
 
     - name: Install dependencies
       run: |
-        source devenv/bin/activate
-        pip install -r components/${{ matrix.component }}/requirements.txt
+        ls -la
+        # source components/${{ matrix.component }}/devenv/bin/activate
+        # pip install -r components/${{ matrix.component }}/requirements.txt
